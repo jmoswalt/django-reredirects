@@ -37,7 +37,6 @@ class ReRedirectFallbackMiddleware(object):
 
         if not r:
             for redirect in Redirect.objects.filter(old_path__icontains='(').filter(old_path__icontains=')'):
-                print redirect.old_path, full_path
                 match = re.search(redirect.old_path, full_path, re.I)
                 if match:
                     r = redirect
