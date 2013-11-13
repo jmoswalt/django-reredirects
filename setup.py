@@ -26,7 +26,7 @@ setup(
     author_email='jmoswalt@gmail.com',
     url='https://github.com/jmoswalt/django-reredirects',
     packages=[
-        'django-reredirects',
+        'reredirects',
     ],
     package_dir={'django-reredirects': 'reredirects'},
     include_package_data=True,
