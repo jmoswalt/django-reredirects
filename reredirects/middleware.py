@@ -47,8 +47,12 @@ class ReRedirectFallbackMiddleware(object):
             if r.new_path == '':
                 return self.response_gone_class()
             # Prevent endless redirects to a relative path
-            if not r.new_path.startswith('http') or not r.new_path.startswith('/'):
-                r.new_path = "/%s" % r.new_path
+            if not r.new_path.startswith('http'):
+                if r.new_path.startswith('/') and request.META['SERVER_NAME'].endswith('/'):
+                    r.new_path = r.new_path[1:]
+                elif not r.new_path.startswith('/') and not request.META['SERVER_NAME'].endswith('/'):
+                    r.new_path = "/%s" % r.new_path
+                r.new_path = "%s://%s%s" % ('http', request.META['SERVER_NAME'], r.new_path)
             return self.response_redirect_class(r.new_path)
 
         # No redirect was found. Return the response.
